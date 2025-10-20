@@ -1,41 +1,25 @@
-#!/usr/bin/python3
-"""
-A Python script to insert sample data into the 'books' table.
-"""
-
-import MySQLdb
-from MySQLdb import Error
-
-connection = None
+import mysql.connector
+from mysql.connector import Error
 
 try:
-    connection = MySQLdb.connect(
+    connection = mysql.connector.connect(
         host="localhost",
-        user="root",
-        passwd="root",
-        database="alx_book_store"
+        user="alx_user",
+        password="Alx@123"
     )
-    cursor = connection.cursor()
 
-    # Insert sample data
-    insert_query = """
-    INSERT INTO books (title, author, price)
-    VALUES
-        ('Think and Grow Rich', 'Napoleon Hill', 12.99),
-        ('Rich Dad Poor Dad', 'Robert Kiyosaki', 15.50),
-        ('The Alchemist', 'Paulo Coelho', 10.75);
-    """
-    cursor.execute(insert_query)
-    connection.commit()
-    print("✅ Sample data inserted into 'books' table!")
+    if connection.is_connected():
+        print("✅ Connected to MySQL Server")
+        cursor = connection.cursor()
+        cursor.execute("CREATE DATABASE IF NOT EXISTS alx_book_store")
+        print("Database 'alx_book_store' created successfully!")
 
 except Error as e:
     print(f"❌ Error: {e}")
 
 finally:
-    if connection is not None:
+    if 'connection' in locals() and connection.is_connected():
         cursor.close()
         connection.close()
-
-
+        print("MySQL connection is closed")
 
