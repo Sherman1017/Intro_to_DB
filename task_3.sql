@@ -1,3 +1,3 @@
-USE alx_books_store;
-SHOW TABLES;
+USE alx_book_store;
+SHOW TABLEs;
 
